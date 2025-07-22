@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 export interface Iproduct{
     id: number;
@@ -25,7 +25,12 @@ export class ProductService {
                 break;
             }
         }
-        return product;
+        if(product){
+            return product;
+        }else{
+            throw new NotFoundException(`product ${id} not found`);
+        }
+        
     }
 
     // getById(id: number): Iproduct | null {
