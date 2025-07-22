@@ -20,7 +20,7 @@ export class ProductService {
     getById(id: number): Iproduct | null {
         let product: null | Iproduct = null;
         for (const productElement of this.products) {
-            if(productElement.id === id){
+            if(productElement.id === +id){
                 product = productElement;
                 break;
             }

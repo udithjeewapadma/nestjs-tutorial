@@ -12,7 +12,7 @@ export class ProductController {
 
   @Get('by-id/:id')
   productById(@Param('id') productId: number ){
-    console.log(productId);
+    console.log(typeof productId);
     return this.productService.getById(productId);
   }
 
@@ -21,7 +21,7 @@ export class ProductController {
 
     console.log(newProduct);
     const newProductId = this.productService.createProduct(newProduct);
-    return "new product ${newProductId}$";
+    return `new product ${newProductId}`;
 
   }
 
