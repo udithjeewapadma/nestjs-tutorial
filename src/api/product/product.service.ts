@@ -1,31 +1,21 @@
-import { Injectable, InternalServerErrorException} from '@nestjs/common';
+import { HttpException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
+import { AllProductResponse, ProductData } from './dto/product-response';
 
-export interface Iproduct{
-    title: string;
-    price: number;
-    description: string;
-    image: string;
-}
 @Injectable()
 export class ProductService {
 
-    private products:Iproduct[] = [];
-
-
     constructor(private readonly DB:PrismaService ){}
 
-    async getAllProducts() {
+    async getAllProducts():Promise<AllProductResponse> {
         try {  
 
-            return await this.DB.product.findMany({
-                select:{
-                    title: true,
-                    price: true,
-                    image: true,
-                    description: true
-                },
-            });
+            const allProducts =  await this.DB.product.findMany();
+
+            const newVar = {
+                products: allProducts,
+            };
+            return newVar;
 
         } catch (error) {
             console.log(error);
@@ -33,7 +23,30 @@ export class ProductService {
         }
     }
 
-    async createProduct(product: Iproduct){
+    async getProductById(id:number):Promise<ProductData>{
+
+        try {
+            const product:unknown = await this.DB.product.findUnique({where: {id:+id}, select:{
+                title: true,
+                price: true,
+                description: true,
+                image: true,
+            },
+        });
+        if(!product){
+            throw new NotFoundException(`product ${id} not found`)
+        }
+        else{
+            return product as ProductData;
+        }
+        } catch (error) {
+            console.log(error);
+            if(error instanceof HttpException) throw error;
+            throw new InternalServerErrorException("Internal Server Error")
+        }
+    }
+
+    async createProduct(product: ProductData){
 
         try {
             const newData = await this.DB.product.create({
