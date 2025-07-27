@@ -135,7 +135,7 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.productOrderByRelevanceFieldEnum = {
+exports.Prisma.ProductOrderByRelevanceFieldEnum = {
   title: 'title',
   image: 'image',
   description: 'description'
@@ -143,7 +143,7 @@ exports.Prisma.productOrderByRelevanceFieldEnum = {
 
 
 exports.Prisma.ModelName = {
-  product: 'product'
+  Product: 'Product'
 };
 
 /**
