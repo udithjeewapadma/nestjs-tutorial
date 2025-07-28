@@ -74,7 +74,8 @@ export class ProductService {
 
         } catch (error) {
             console.log(error);
-            if(error instanceof HttpException) throw error;
+            // if(error instanceof HttpException) throw error;
+            if(error['code'] == 'P2025') throw new BadRequestException(`product ${id} is not found`);
             throw new InternalServerErrorException("Internal Server Error");
         }
     }
