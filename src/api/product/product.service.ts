@@ -1,6 +1,7 @@
 import { HttpException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
-import { AllProductResponse, ProductData } from './dto/product-response';
+import { AllProductResponse} from './dto/product-response';
+import { ProductData, ProductUpdate } from './dto/product-request';
 
 @Injectable()
 export class ProductService {
@@ -61,5 +62,20 @@ export class ProductService {
             
         }
 
+    }
+
+    async updateProduct(id: number, product: ProductUpdate){
+        try {
+            await this.DB.product.update({
+                 where:{id: +id},
+                 data:{...product},
+                });
+                return `product ${id} is updated successfully`;
+                
+        } catch (error) {
+            console.log(error);
+            if(error instanceof HttpException) throw error;
+            throw new InternalServerErrorException("Internal Server Error");
+        }
     }
 }
