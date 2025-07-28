@@ -130,6 +130,19 @@ exports.Prisma.ProductScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  age: 'age',
+  username: 'username',
+  password: 'password',
+  city: 'city',
+  phone: 'phone',
+  email: 'email',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -141,9 +154,24 @@ exports.Prisma.ProductOrderByRelevanceFieldEnum = {
   description: 'description'
 };
 
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+
+exports.Prisma.UserOrderByRelevanceFieldEnum = {
+  name: 'name',
+  username: 'username',
+  password: 'password',
+  city: 'city',
+  phone: 'phone',
+  email: 'email'
+};
+
 
 exports.Prisma.ModelName = {
-  Product: 'Product'
+  Product: 'Product',
+  User: 'User'
 };
 
 /**
