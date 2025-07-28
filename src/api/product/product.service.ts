@@ -1,4 +1,4 @@
-import { HttpException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
+import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
 import { AllProductResponse} from './dto/product-response';
 import { ProductData, ProductUpdate } from './dto/product-request';
@@ -71,11 +71,25 @@ export class ProductService {
                  data:{...product},
                 });
                 return `product ${id} is updated successfully`;
-                
+
         } catch (error) {
             console.log(error);
             if(error instanceof HttpException) throw error;
             throw new InternalServerErrorException("Internal Server Error");
+        }
+    }
+
+
+    async deleteProduct(id: number): Promise<string>{
+        try {
+            await this.DB.product.delete({where:{id: +id}});
+            return  `product ${id} is deleted successfully`;
+            
+        } catch (error) {
+            console.log(error);
+            if(error['code'] == 'P2025') throw new BadRequestException(`product ${id} is not found`);
+            throw new InternalServerErrorException("Internal Server Error");
+
         }
     }
 }
