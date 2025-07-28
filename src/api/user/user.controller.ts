@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, HttpStatus } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { LoginUserData } from './dto/user-request.dto';
 
 @Controller('user')
 export class UserController {
@@ -10,6 +11,12 @@ export class UserController {
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Post('login')
+  @HttpCode(HttpStatus.ACCEPTED)
+  login(@Body() loginUserData: LoginUserData){
+    return this.userService.login(loginUserData);
   }
 
   @Post('register')
