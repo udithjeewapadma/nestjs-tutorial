@@ -1,0 +1,31 @@
+import { Injectable, InternalServerErrorException, UnauthorizedException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
+
+@Injectable()
+export class JwtAuthService {
+    constructor(private readonly jwt: JwtService){
+
+    }
+
+    async getToken(){
+        try {
+            const token = await this.jwt.signAsync({
+                name: "udith",
+            });
+            return token;
+        } catch (error) {
+            console.log(error);
+            throw new InternalServerErrorException(`Internal Server Error`);
+        }
+    }
+
+
+    async verifyToken(token:string){
+        try {
+           const verify = await this.jwt.verifyAsync(token);
+        } catch (error) {
+            console.log(error);
+            throw new UnauthorizedException();
+        }
+    }
+}
