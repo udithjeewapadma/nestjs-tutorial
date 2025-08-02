@@ -24,6 +24,12 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Post('verify')
+  @HttpCode(HttpStatus.OK)
+  verify(@Body() token: {token:string}){
+    return this.userService.verifyToken(token.token);
+  }
+
   @Get()
   findAll() {
     return this.userService.findAll();
