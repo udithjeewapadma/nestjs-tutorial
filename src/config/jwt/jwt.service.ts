@@ -20,9 +20,10 @@ export class JwtAuthService {
     }
 
 
-    async verifyToken(token:string){
+    async verifyToken(token:string):Promise<boolean>{
         try {
-           const verify = await this.jwt.verifyAsync(token);
+           const verify:unknown = await this.jwt.verifyAsync(token);
+           return verify as boolean;
         } catch (error) {
             console.log(error);
             throw new UnauthorizedException();
