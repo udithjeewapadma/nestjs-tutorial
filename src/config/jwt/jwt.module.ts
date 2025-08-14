@@ -9,7 +9,7 @@ import { JwtGuard } from 'src/guard/jwt-guard/jwt-guard.guard';
   imports: [JwtModule.register({
     secret: 'mysecret',
     signOptions: {
-      expiresIn: '1m'
+      expiresIn: '10m'
     }
   })],
   providers: [

@@ -2,12 +2,14 @@ import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nes
 import { ProductService } from './product.service';
 import { ProductData, ProductUpdate } from './dto/product-request';
 import { JwtGuard } from 'src/guard/jwt-guard/jwt-guard.guard';
+import { Role, Roles } from 'src/decorator/roles/roles.decorator';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   // @UseGuards(JwtGuardGuard)
+  @Roles(Role.User)
   @Get('all-products')
   allProducts() {
     return this.productService.getAllProducts();

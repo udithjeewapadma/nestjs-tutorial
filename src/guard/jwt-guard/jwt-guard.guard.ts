@@ -3,6 +3,7 @@ import { Reflector } from '@nestjs/core';
 import {Request} from 'express'
 import { JwtAuthService } from 'src/config/jwt/jwt.service';
 import { PUBLIC_DEC_KEY } from 'src/decorator/public/public.decorator';
+import { ROLE_DEC_KEY } from 'src/decorator/roles/roles.decorator';
 
 @Injectable()
 export class JwtGuard implements CanActivate {
@@ -22,6 +23,10 @@ export class JwtGuard implements CanActivate {
 
     if(isPublic) return true;
 
+    const roles = this.reflector.getAllAndOverride(ROLE_DEC_KEY,[
+      context.getHandler(),
+      context.getClass()
+    ]);
 
     const req:Request = context.switchToHttp().getRequest();
     const tokenstring = req.headers.authorization;
@@ -29,6 +34,6 @@ export class JwtGuard implements CanActivate {
 
     const token =tokenstring?.split(' ')[1];
     if(!token) return false;
-    return await this.JwtService.verifyToken(token);
+    return await this.JwtService.verifyToken(token,roles);
   }
 }
