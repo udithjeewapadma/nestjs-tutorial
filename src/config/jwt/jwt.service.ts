@@ -26,6 +26,7 @@ export class JwtAuthService {
            return verify as boolean;
         } catch (error) {
             console.log(error);
+            if(error?.expiredAt) throw new UnauthorizedException('token expired');
             throw new UnauthorizedException();
         }
     }

@@ -1,13 +1,13 @@
 import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductData, ProductUpdate } from './dto/product-request';
-import { JwtGuardGuard } from 'src/guard/jwt-guard/jwt-guard.guard';
+import { JwtGuard } from 'src/guard/jwt-guard/jwt-guard.guard';
 
 @Controller('product')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
-  @UseGuards(JwtGuardGuard)
+  // @UseGuards(JwtGuardGuard)
   @Get('all-products')
   allProducts() {
     return this.productService.getAllProducts();

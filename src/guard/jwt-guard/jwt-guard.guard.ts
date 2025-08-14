@@ -3,7 +3,7 @@ import {Request} from 'express'
 import { JwtAuthService } from 'src/config/jwt/jwt.service';
 
 @Injectable()
-export class JwtGuardGuard implements CanActivate {
+export class JwtGuard implements CanActivate {
 
   constructor(private readonly JwtService: JwtAuthService){
   }

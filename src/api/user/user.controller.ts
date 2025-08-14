@@ -3,6 +3,7 @@ import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { LoginUserData } from './dto/user-request.dto';
+import { Public } from 'src/decorator/public/public.decorator';
 
 @Controller('user')
 export class UserController {
@@ -13,6 +14,7 @@ export class UserController {
     return this.userService.create(createUserDto);
   }
 
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.ACCEPTED)
   login(@Body() loginUserData: LoginUserData){
