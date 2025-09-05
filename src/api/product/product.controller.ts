@@ -1,8 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post, Put, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ProductData, ProductUpdate } from './dto/product-request';
 import { JwtGuard } from 'src/guard/jwt-guard/jwt-guard.guard';
 import { Role, Roles } from 'src/decorator/roles/roles.decorator';
+import { NoCache } from 'src/decorator/no-cache/no-cache.decorator';
+// import { CacheInterceptor } from '@nestjs/cache-manager';
 
 @Controller('product')
 export class ProductController {
@@ -11,6 +13,10 @@ export class ProductController {
   // @UseGuards(JwtGuardGuard)
   @Roles(Role.User)
   @Get('all-products')
+  //fully automated caching
+  // @UseInterceptors(CacheInterceptor)
+
+  @NoCache()
   allProducts() {
     return this.productService.getAllProducts();
   }

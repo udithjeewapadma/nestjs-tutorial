@@ -1,14 +1,19 @@
-import { BadRequestException, HttpException, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
+import { BadRequestException, HttpException, Inject, Injectable, InternalServerErrorException, NotFoundException} from '@nestjs/common';
 import { PrismaService } from 'src/config/prisma/prisma.service';
 import { AllProductResponse} from './dto/product-response';
 import { ProductData, ProductUpdate } from './dto/product-request';
+// import { CACHE_MANAGER,Cache } from '@nestjs/cache-manager';
 
 @Injectable()
 export class ProductService {
 
-    constructor(private readonly DB:PrismaService ){}
+    constructor(private readonly DB:PrismaService,
+        //  @Inject(CACHE_MANAGER) private readonly cacheManager:Cache,
+          ){}
 
     async getAllProducts():Promise<AllProductResponse> {
+        // const cacheData = await this.cacheManager.get('all-products')
+        // console.log(cacheData)
         try {  
 
             const allProducts =  await this.DB.product.findMany();
@@ -16,6 +21,7 @@ export class ProductService {
             const newVar = {
                 products: allProducts,
             };
+            // await this.cacheManager.set('all-products', newVar);
             return newVar;
 
         } catch (error) {
